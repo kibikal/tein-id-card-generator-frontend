@@ -243,7 +243,7 @@ function CardForm() {
         className="progress-container"
         style={{ opacity: isClicked ? 1 : 0 }}
       >
-        <CircularProgress />
+        {/* <CircularProgress /> */}
       </div>
     </div>
   );
