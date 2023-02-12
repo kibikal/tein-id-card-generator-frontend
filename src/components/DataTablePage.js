@@ -62,7 +62,7 @@ function DataTablePage() {
   });
 
   useEffect(() => {
-    fetch("http://localhost:4000/registered")
+    fetch("https://tein-uenr-api/registered")
       .then((res) => res.json())
       .then((result) => setMemberList(result))
       .catch((err) => console.log(err));
