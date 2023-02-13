@@ -43,7 +43,7 @@ function CardForm() {
     };
 
     axios
-      .post("https://tein-uenr-api/register", registered)
+      .post("https://tein-uenr-api.onrender.com/register", registered)
       .then((res) => {
         console.log(res.data);
         setErrorStatus({ status: false, message: "" });

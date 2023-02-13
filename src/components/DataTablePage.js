@@ -62,7 +62,7 @@ function DataTablePage() {
   });
 
   useEffect(() => {
-    fetch("https://tein-uenr-api/registered")
+    fetch("https://tein-uenr-api.onrender.com/registered")
       .then((res) => res.json())
       .then((result) => setMemberList(result))
       .catch((err) => console.log(err));
