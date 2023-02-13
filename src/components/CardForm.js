@@ -22,14 +22,13 @@ function CardForm() {
     status: false,
     message: "",
   });
-  const [isClicked, setIsClicked] = useState(false);
-  console.log(isClicked);
+ 
   const [registeredPerson, setRegisteredPerson] = useState({});
+  const [loading, setLoading]= useState(false)
   const exportRef = useRef();
 
   function submitForm(event) {
     setPreview(true);
-    setIsClicked(true);
     event.preventDefault();
 
     const registered = {
@@ -48,7 +47,9 @@ function CardForm() {
         console.log(res.data);
         setErrorStatus({ status: false, message: "" });
         setRegisteredPerson(res.data);
+        setLoading(true);
       })
+      
 
       .catch((err) => {
         console.log(err);
@@ -149,15 +150,13 @@ function CardForm() {
                   setDateJoined("");
                   setPassportSrc("");
                   setPreview(false);
-                  setIsClicked(false);
                 }}
               >
                 Add new
               </button>
             </div>
-            <div
+            {loading ? (<div
               className="alert"
-              style={{ display: isClicked === true ? "block" : "none" }}
             >
               {!errorStatus.status ? (
                 <Alert severity="success">
@@ -170,7 +169,7 @@ function CardForm() {
                   Registration unsuccessful.
                 </Alert>
               )}
-            </div>
+            </div>) : (<CircularProgress/>)}
           </form>
         </div>
         <div className="right-container">
@@ -239,12 +238,7 @@ function CardForm() {
           </button>
         </div>
       </div>
-      {/* <div
-        className="progress-container"
-        style={{ display: isClicked ? "block" : "none" }}
-      >
-         <CircularProgress /> 
-      </div> */}
+      
     </div>
   );
 }
