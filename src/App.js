@@ -11,8 +11,8 @@ function App() {
     <div className="app-main">
       <Header />
       <Routes>
-        <Route path="/registered-members" element={<DataTablePage />} />
         <Route path="/" element={<CardForm />} />
+        <Route path="/registered-members" element={DataTablePage} />
         <Route path="*" element=<h1>Page not found</h1> />
       </Routes>
 
