@@ -232,7 +232,7 @@ function CardForm() {
 
           <button
             className="button todb-btn"
-            onClick={() => window.open("/registered-members", "_blank")}
+            onClick={() => window.open("/registered", "_blank")}
           >
             View Members
           </button>
