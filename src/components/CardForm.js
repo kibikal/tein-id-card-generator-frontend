@@ -4,6 +4,7 @@ import uenrlogo from "../images/uenr-logo.png";
 import FormInput from "../components/FormInput";
 import CardEntry from "../components/CardEntry";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import passportPic from "../images/imageplch.jpg";
 import exportAsImage from "../utils/ExportAsImage";
 import Alert from "@mui/material/Alert";
@@ -26,6 +27,8 @@ function CardForm() {
   const [registeredPerson, setRegisteredPerson] = useState({});
   const [loading, setLoading]= useState(false)
   const exportRef = useRef();
+
+const navigate = useNavigate();
 
   function submitForm(event) {
     setPreview(true);
@@ -232,7 +235,7 @@ function CardForm() {
 
           <button
             className="button todb-btn"
-            onClick={() => window.open("/registered", "_blank")}
+            onClick={() => navigate("/registered")}
           >
             View Members
           </button>
