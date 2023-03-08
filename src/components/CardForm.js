@@ -23,45 +23,66 @@ function CardForm() {
     status: false,
     message: "",
   });
- 
+
+  const [showMessage, setShowMessage] = useState(false);
+
   const [registeredPerson, setRegisteredPerson] = useState({});
-  const [loading, setLoading]= useState(false)
+  const [loading, setLoading] = useState(false);
   const exportRef = useRef();
 
-const navigate = useNavigate();
+  const navigate = useNavigate();
 
-  function submitForm(event) {
-    setPreview(true);
+  const registered = {
+    fullName: name,
+    program: program,
+    level: level,
+    constituency: constituency,
+    phone: contact,
+    dateOfJoining: dateJoined,
+    passportPhoto: passportSrc,
+  };
+
+  async function submitForm(event) {
     event.preventDefault();
+    setPreview(true);
+    setLoading(true);
 
-    const registered = {
-      fullName: name,
-      program: program,
-      level: level,
-      constituency: constituency,
-      phone: contact,
-      dateOfJoining: dateJoined,
-      passportPhoto: passportSrc,
-    };
-
-    axios
-      .post("https://tein-uenr-api.onrender.com/register", registered)
-      .then((res) => {
-        console.log(res.data);
-        setErrorStatus({ status: false, message: "" });
-        setRegisteredPerson(res.data);
-        setLoading(true);
-      })
-      
-
-      .catch((err) => {
-        console.log(err);
-        setErrorStatus({
-          status: true,
-          message: err.message,
-        });
+    try {
+      const response = await axios.post(
+        "https://tein-uenr-api.onrender.com/register",
+        registered
+      );
+      console.log(response.data);
+      setRegisteredPerson(response.data);
+      setErrorStatus({ status: false, message: "" });
+    } catch (err) {
+      console.log(err);
+      setErrorStatus({
+        status: true,
+        message: err.message,
       });
+    } finally {
+      setLoading(false);
+      setShowMessage(true);
+      setTimeout(() => setShowMessage(false), 1000);
+    }
   }
+
+  // axios
+  //   .post("https://tein-uenr-api.onrender.com/register", registered)
+  //   .then((res) => {
+  //     console.log(res.data);
+  //     setErrorStatus({ status: false, message: "" });
+  //     setRegisteredPerson(res.data);
+  //     setLoading(true);
+  //   })
+  //   .catch((err) => {
+  //     console.log(err);
+  //     setErrorStatus({
+  //       status: true,
+  //       message: err.message,
+  //     });
+  //   });
 
   return (
     <div className="App">
@@ -158,21 +179,25 @@ const navigate = useNavigate();
                 Add new
               </button>
             </div>
-            {loading ? (<div
-              className="alert"
-            >
-              {!errorStatus.status ? (
-                <Alert severity="success">
-                  <AlertTitle>Success</AlertTitle>
-                  Registration successful
-                </Alert>
-              ) : (
-                <Alert severity="error">
-                  <AlertTitle>{errorStatus.message}</AlertTitle>
-                  Registration unsuccessful.
-                </Alert>
-              )}
-            </div>) : (<CircularProgress/>)}
+            {loading ? (
+              <div className="spinner">
+                <CircularProgress />
+              </div>
+            ) : showMessage ? (
+              <div className="alert">
+                {!errorStatus.status ? (
+                  <Alert severity="success">
+                    <AlertTitle>Success</AlertTitle>
+                    Registration successful
+                  </Alert>
+                ) : (
+                  <Alert severity="error">
+                    <AlertTitle>{errorStatus.message}</AlertTitle>
+                    Registration unsuccessful.
+                  </Alert>
+                )}
+              </div>
+            ) : null}
           </form>
         </div>
         <div className="right-container">
@@ -222,7 +247,7 @@ const navigate = useNavigate();
                 />
               </div>
               <div className="passport-photo">
-                <img src= {passportPic}  alt="" />
+                <img src={passportPic} alt="" />
               </div>
             </div>
           </div>
@@ -241,7 +266,6 @@ const navigate = useNavigate();
           </button>
         </div>
       </div>
-      
     </div>
   );
 }

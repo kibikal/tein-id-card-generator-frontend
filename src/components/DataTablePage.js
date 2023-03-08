@@ -4,13 +4,14 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "react-bootstrap-table-next/dist/react-bootstrap-table2.css";
 import paginationFactory from "react-bootstrap-table2-paginator";
 import "react-bootstrap-table2-paginator/dist/react-bootstrap-table2-paginator.min.css";
-
+import CircularProgress from "@mui/material/CircularProgress";
 import filterFactory, { textFilter } from "react-bootstrap-table2-filter";
 import "react-bootstrap-table2-filter/dist/react-bootstrap-table2-filter.min.css";
 import ToolKitProvider from "react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit";
 
 function DataTablePage() {
   const [memberList, setMemberList] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   // const { ExportCSVButton } = CSVExport;
   const MyExportCSV = (props) => {
@@ -36,7 +37,11 @@ function DataTablePage() {
     },
     { dataField: "program", text: "Program", filter: textFilter() },
     { dataField: "level", text: "Level", sort: true },
-    {dataField: "membershipNumber", text: "Membership Number", filter:textFilter()},
+    {
+      dataField: "membershipNumber",
+      text: "Membership Number",
+      filter: textFilter(),
+    },
     { dataField: "constituency", text: "Constituency", filter: textFilter() },
     { dataField: "phone", text: "Contact" },
     { dataField: "dateOfJoining", text: "Date Joined" },
@@ -65,29 +70,37 @@ function DataTablePage() {
     fetch("https://tein-uenr-api.onrender.com/registered")
       .then((res) => res.json())
       .then((result) => setMemberList(result))
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err))
+      .finally((_) => setLoading(false));
   }, []);
 
   return (
     <div className="table-main">
-      <ToolKitProvider
-        bootstrap4
-        keyField="_id"
-        columns={columns}
-        data={memberList}
-        exportCSV
-      >
-        {(props) => (
-          <React.Fragment>
-            <MyExportCSV {...props.csvProps} />
-            <BootstrapTable
-              pagination={pagination}
-              filter={filterFactory()}
-              {...props.baseProps}
-            />
-          </React.Fragment>
-        )}
-      </ToolKitProvider>
+      {loading ? (
+        <div className="table-loader">
+          <p>Loading...</p>
+          <CircularProgress />
+        </div>
+      ) : (
+        <ToolKitProvider
+          bootstrap4
+          keyField="_id"
+          columns={columns}
+          data={memberList}
+          exportCSV
+        >
+          {(props) => (
+            <React.Fragment>
+              <MyExportCSV {...props.csvProps} />
+              <BootstrapTable
+                pagination={pagination}
+                filter={filterFactory()}
+                {...props.baseProps}
+              />
+            </React.Fragment>
+          )}
+        </ToolKitProvider>
+      )}
     </div>
   );
 }
