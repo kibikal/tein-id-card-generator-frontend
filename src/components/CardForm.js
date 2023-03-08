@@ -260,7 +260,7 @@ function CardForm() {
 
           <button
             className="button todb-btn"
-            onClick={() => navigate("/registered")}
+            onClick={() => navigate("/#/registered")}
           >
             View Members
           </button>
