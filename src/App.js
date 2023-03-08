@@ -12,7 +12,7 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<CardForm />} />
-        <Route path="/registered" element={<DataTablePage />} />
+        <Route path="/#/registered" element={<DataTablePage />} />
         <Route path="*" element=<h1>Page not found</h1> />
       </Routes>
 
