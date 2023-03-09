@@ -201,6 +201,7 @@ function CardForm() {
           </form>
         </div>
         <div className="right-container">
+        <div className="right-container-main">
           <div ref={exportRef} className="id-card">
             <div className="card-row1">
               <img src={ndclogo} className="id-card-logo" alt="" />
@@ -260,10 +261,11 @@ function CardForm() {
 
           <button
             className="button todb-btn"
-            onClick={() => navigate("/#/registered")}
+            onClick={() => navigate("/registered")}
           >
             View Members
           </button>
+        </div>
         </div>
       </div>
     </div>
