@@ -10,6 +10,7 @@ import exportAsImage from "../utils/ExportAsImage";
 import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
 import CircularProgress from "@mui/material/CircularProgress";
+import moment from "moment"
 function CardForm() {
   const [name, setName] = useState("");
   const [program, setProgram] = useState("");
@@ -142,7 +143,7 @@ function CardForm() {
               pattern="\d{4}-\d{2}-\d{2}"
               name="date_of_joining"
               value={dateJoined}
-              onChange={(event) => setDateJoined(event.target.value)}
+              onChange={(event) => setDateJoined(moment(event.target.value).format("LL"))}
             />
 
             <FormInput
